@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ع النار - Specialty Grilled</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(217, 126, 58, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 10px rgba(217, 126, 58, 0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background-color: #fff;
+            color: #333;
+        }
+
+        .min-h-screen {
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background-color: #D97E3A;
+            border-bottom: 3px solid #E8A857;
+            padding: 3rem 1rem;
+        }
+
+        .max-w-4xl {
+            max-width: 56rem;
+            margin: 0 auto;
+        }
+
+        .max-w-6xl {
+            max-width: 72rem;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-align: center;
+            margin-bottom: 0.75rem;
+            color: white;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #FFF5E6;
+            font-size: 1.125rem;
+            letter-spacing: 0.05em;
+        }
+
+        .contact-info {
+            margin-top: 2rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: #FFECDB;
+            line-height: 1.5;
+        }
+
+        /* Main content */
+        .container {
+            max-width: 72rem;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+        }
+
+        @media (min-width: 1024px) {
+            .grid {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+
+        /* Menu */
+        .menu-section {
+            space-y: 1.5rem;
+        }
+
+        .category {
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #E8A857;
+            margin-bottom: 1.5rem;
+        }
+
+        .category:last-child {
+            border-bottom: none;
+        }
+
+        .category-button {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #D97E3A;
+            font-size: 1.5rem;
+            font-family: 'Playfair Display', serif;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+        }
+
+        .category-button:hover {
+            color: #B85E1F;
+            transform: translateX(5px);
+        }
+
+        .chevron {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .chevron.rotated {
+            transform: rotate(180deg);
+        }
+
+        .items {
+            display: none;
+            space-y: 1rem;
+            margin-top: 1rem;
+            padding-left: 0.5rem;
+        }
+
+        .items.show {
+            display: grid;
+            gap: 1rem;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-name {
+            color: #333;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .item-price {
+            color: #F97316;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .add-btn {
+            padding: 0.5rem 1rem;
+            background-color: #D97E3A;
+            color: white;
+            border: none;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 300;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-btn:hover {
+            background-color: #B85E1F;
+            transform: scale(1.08);
+            box-shadow: 0 4px 12px rgba(217, 126, 58, 0.4);
+        }
+
+        .add-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Cart */
+        .cart {
+            position: sticky;
+            top: 2rem;
+            background-color: #FFF8F3;
+            border: 2px solid #E8A857;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            animation: fadeIn 0.6s ease-out;
+            transition: all 0.3s ease;
+        }
+
+        .cart:hover {
+            box-shadow: 0 8px 20px rgba(217, 126, 58, 0.15);
+        }
+
+        .cart-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+            color: #D97E3A;
+        }
+
+        .cart-items {
+            display: grid;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            max-height: 16rem;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            font-size: 0.875rem;
+            gap: 0.5rem;
+            animation: slideDown 0.3s ease-out;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .cart-item:hover {
+            background-color: rgba(217, 126, 58, 0.1);
+            transform: translateX(4px);
+        }
+
+        .cart-item-name {
+            color: #555;
+            flex: 1;
+        }
+
+        .cart-item-price {
+            color: #D97E3A;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: #D97E3A;
+            cursor: pointer;
+            font-size: 1.25rem;
+            padding: 0;
+            opacity: 0;
+            transition: opacity 0.2s, color 0.2s;
+        }
+
+        .cart-item:hover .remove-btn {
+            opacity: 1;
+        }
+
+        .remove-btn:hover {
+            color: #C0411F;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 2rem;
+            color: #D97E3A;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.125rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            color: #D97E3A;
+            padding-top: 1rem;
+            border-top: 2px solid #E8A857;
+            margin-bottom: 1.5rem;
+        }
+
+        .whatsapp-btn {
+            width: 100%;
+            background-color: #D97E3A;
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .whatsapp-btn:hover {
+            background-color: #B85E1F;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .whatsapp-btn:active {
+            transform: translateY(0);
+        }
+
+        .whatsapp-btn svg {
+            animation: bounce 0.6s ease-in-out infinite;
+        }
+
+        .whatsapp-btn:hover svg {
+            animation: bounce 0.4s ease-in-out infinite;
+        }
+
+        .clear-btn {
+            width: 100%;
+            margin-top: 0.75rem;
+            padding: 0.5rem;
+            background: none;
+            border: none;
+            color: #D97E3A;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .clear-btn:hover {
+            color: #B85E1F;
+            transform: translateX(-4px);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Header animation */
+        header {
+            animation: slideDown 0.6s ease-out;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #FFF8F3;
+            border-top: 3px solid #E8A857;
+            margin-top: 5rem;
+            padding: 3rem 1rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: #D97E3A;
+            animation: slideDown 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen" style="background-color: white;">
+        <!-- Header -->
+        <header>
+            <div class="max-w-4xl">
+                <h1>ع النار</h1>
+                <p class="subtitle">SPECIALTY GRILLED</p>
+                <div class="contact-info">
+                    <p>Kfarshima, Belouh, Yaghy Bld</p>
+                    <p>Phone: 81 73 74 70</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="container">
+            <div class="grid">
+                <!-- Menu Section -->
+                <div class="menu-section" id="menuContainer">
+                    <!-- Categories will be populated by JavaScript -->
+                </div>
+
+                <!-- Cart Section -->
+                <div class="cart">
+                    <h3 class="cart-title">Your Order</h3>
+                    <div id="cartContent">
+                        <p class="empty-cart">No items yet</p>
+                    </div>
+                    <button class="whatsapp-btn" onclick="handleWhatsAppOrder()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.272-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004a6.963 6.963 0 0 0-6.943 6.944c0 1.526.42 3.01 1.218 4.303L.424 23.987l4.902-1.617c1.254.712 2.679 1.089 4.125 1.089h.004c3.823 0 6.947-3.124 6.947-6.947 0-1.855-.787-3.599-2.176-4.838a6.92 6.92 0 0 0-4.899-2.038Z"/>
+                        </svg>
+                        Order on WhatsApp
+                    </button>
+                    <button class="clear-btn hidden" id="clearBtn" onclick="clearCart()">Clear Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>ع النار • Specialty Grilled • Est. 2024</p>
+        </footer>
+    </div>
+
+    <script>
+        // Menu data
+        const menu = {
+            'Salad & Sides': [
+                { name: 'Fattoush', price: 5.50 },
+                { name: 'Hommos', price: 5.00 },
+                { name: 'Box Fries', price: 2.00 },
+                { name: 'Fries', price: 4.00 }
+            ],
+            'Sandwiches': [
+                { name: 'Fries', price: 3.00 },
+                { name: 'Tawook', price: 6.00 },
+                { name: 'Lahme', price: 6.50 },
+                { name: 'Ghanam', price: 9.00 },
+                { name: 'Mkanek', price: 6.00 },
+                { name: 'Kafta', price: 6.00 },
+                { name: 'Kabab', price: 6.00 },
+                { name: 'Kabab ع النار', price: 7.00 },
+                { name: 'Chicken Grilled', price: 6.00 },
+                { name: 'Kafta 3al Ab3a', price: 7.00 },
+                { name: 'Kabab 3al Ab3a', price: 7.00 }
+            ],
+            'Platters': [
+                { name: 'Plat Tawook', price: 9.00 },
+                { name: 'Plat Lahme', price: 10.00 },
+                { name: 'Plat Ghanam', price: 12.00 },
+                { name: 'Plat Kafta', price: 9.00 },
+                { name: 'Plat Kabab', price: 9.00 },
+                { name: 'Plat Kabab ع النار', price: 10.00 },
+                { name: 'Plat Wings (14pcs)', price: 8.00 }
+            ],
+            'Masheweh': [
+                { name: 'Masheweh Mshakal (1Kg)', price: 29.00 },
+                { name: 'Masheweh Mshakal (0.5Kg)', price: 15.00 },
+                { name: 'Tawook (1Kg)', price: 26.00 },
+                { name: 'Tawook (0.5Kg)', price: 14.00 },
+                { name: 'Lahme (1Kg)', price: 32.00 },
+                { name: 'Lahme (0.5Kg)', price: 17.00 },
+                { name: 'Ghanam (1Kg)', price: 38.00 },
+                { name: 'Ghanam (0.5Kg)', price: 20.00 },
+                { name: 'Kafta (1Kg)', price: 26.00 },
+                { name: 'Kafta (0.5Kg)', price: 14.00 },
+                { name: 'Kabab (1Kg)', price: 26.00 },
+                { name: 'Kabab (0.5Kg)', price: 14.00 }
+            ],
+            'Chicken': [
+                { name: 'Farouj (Whole Chicken)', price: 16.00 },
+                { name: 'Nos Farouj (Half Chicken)', price: 9.00 }
+            ],
+            'Extras': [
+                { name: 'Toum', price: 1.00 },
+                { name: 'Honey Mustard', price: 1.50 },
+                { name: 'Sauce ع النار', price: 1.50 }
+            ],
+            'Drinks': [
+                { name: 'Soft Drinks', price: 1.10 },
+                { name: 'Sparkling Water', price: 1.10 },
+                { name: 'Sparkling Water + Lemon', price: 1.50 },
+                { name: 'Water', price: 0.50 },
+                { name: 'Beer', price: 2.00 }
+            ]
+        };
+
+        let cart = [];
+        let expandedCategory = 'Sandwiches';
+
+        // Chevron SVG
+        const chevronSVG = `
+            <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+        `;
+
+        // Initialize menu
+        function initializeMenu() {
+            const container = document.getElementById('menuContainer');
+            
+            Object.entries(menu).forEach(([category, items]) => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'category';
+                categoryDiv.innerHTML = `
+                    <button class="category-button" onclick="toggleCategory('${category}')">
+                        <h2 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 300; letter-spacing: 0.05em; margin: 0;">${category}</h2>
+                        ${chevronSVG}
+                    </button>
+                    <div class="items ${expandedCategory === category ? 'show' : ''}" id="items-${category}">
+                        ${items.map((item, idx) => `
+                            <div class="item">
+                                <div class="item-info">
+                                    <p class="item-name">${item.name}</p>
+                                    <p class="item-price">$${item.price.toFixed(2)}</p>
+                                </div>
+                                <button class="add-btn" onclick="addToCart('${item.name}', ${item.price})">Add</button>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(categoryDiv);
+            });
+        }
+
+        function toggleCategory(category) {
+            const itemsDiv = document.getElementById(`items-${category}`);
+            const button = event.target.closest('.category-button');
+            const chevron = button.querySelector('.chevron');
+            
+            // Close other categories
+            Object.keys(menu).forEach(cat => {
+                if (cat !== category) {
+                    document.getElementById(`items-${cat}`).classList.remove('show');
+                    document.querySelector(`[onclick="toggleCategory('${cat}')"]`).querySelector('.chevron').classList.remove('rotated');
+                }
+            });
+            
+            itemsDiv.classList.toggle('show');
+            chevron.classList.toggle('rotated');
+            expandedCategory = expandedCategory === category ? null : category;
+        }
+
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            updateCart();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartContent = document.getElementById('cartContent');
+            const clearBtn = document.getElementById('clearBtn');
+            
+            if (cart.length === 0) {
+                cartContent.innerHTML = '<p class="empty-cart">No items yet</p>';
+                clearBtn.classList.add('hidden');
+            } else {
+                const total = cart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
+                cartContent.innerHTML = `
+                    <div class="cart-items">
+                        ${cart.map((item, idx) => `
+                            <div class="cart-item">
+                                <span class="cart-item-name">${item.name}</span>
+                                <span class="cart-item-price">$${item.price.toFixed(2)}</span>
+                                <button class="remove-btn" onclick="removeFromCart(${idx})">✕</button>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="cart-total">
+                        <span>Total:</span>
+                        <span>$${total}</span>
+                    </div>
+                `;
+                clearBtn.classList.remove('hidden');
+            }
+        }
+
+        function clearCart() {
+            cart = [];
+            updateCart();
+        }
+
+        function handleWhatsAppOrder() {
+            const total = cart.reduce((sum, item) => sum + item.price, 0).toFixed(2);
+            const orderText = cart.length > 0 
+                ? `Order:\n${cart.map(item => `${item.name} - $${item.price.toFixed(2)}`).join('\n')}\n\nTotal: $${total}`
+                : 'Hi, I would like to place an order';
+            
+            const encodedText = encodeURIComponent(orderText);
+            window.open(`https://wa.me/96181737470?text=${encodedText}`, '_blank');
+        }
+
+        // Initialize
+        initializeMenu();
+    </script>
+</body>
+</html>
